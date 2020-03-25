@@ -35,15 +35,42 @@ const input = {
   }
 };
 
-function cssInJS(input) {
-  let strCss = "";
-  for (let item of Object.keys(input)) {
-    strCss += `${item}{;`;
-    for (let supItem of Object.keys(input[item])) {
-      strCss += `${supItem}:${input[item][supItem]};`;
-    }
-    strCss += `}`;
+// function cssInJS(input) {
+//   let strCss = "";
+//   for (let item of Object.keys(input)) {
+//     strCss += `${item}{;`;
+//     for (let supItem of Object.keys(input[item])) {
+//       strCss += `${supItem}:${input[item][supItem]};`;
+//     }
+//     strCss += `}`;
+//   }
+//   return strCss;
+// }
+// console.log(cssInJS(input));
+
+// const input = {
+//   body: {
+//     color: "red"
+//   },
+//   "@media (max-width: 996px)": {
+//     "background-color": "#000"
+//   }
+// };
+
+function cssInJs(input) {
+  if (typeof input !== "object") {
+    // Только здесь нужно заморочиться, чтобы привести точно к строке, потому что если вернешь number, то все по пизде пойдет
+    return `${input};`;
   }
-  return strCss;
+
+  let resStr = "{";
+
+  for (let i in input) {
+    const propVal = cssInJs(input[i]);
+    resStr += `${i}: ${propVal}`;
+  }
+
+  resStr += "}";
+
+  return resStr;
 }
-console.log(cssInJS(input));

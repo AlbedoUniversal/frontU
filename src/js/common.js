@@ -7,33 +7,54 @@
 // 	}
 // */
 
-// const input = {
-//       body: {
-//       	    color: red,
-//       },
+const input = {
+  body: {
+    order: 1
+  },
 
-//       '@media (max-width: 996px)': [
-//       	{
-// 		'.class-1': {
-// 			    'background-color': '#000',
-// 		}
-// 	}
-//       ]
-// };
+  "@media (max-width: 996px)": [
+    {
+      ".class-1": {
+        "background-color": "#000"
+      }
+    }
+  ]
+};
 
+function cssInJs(input) {
+  if (typeof input !== "object") {
+    return `${input}`;
+  }
+  let str = "{";
+  for (let i in input) {
+    if (Array.isArray(input[i])) {
+      input[i].forEach(elem => {
+        objStr = JSON.stringify(elem);
+        str += `${i}:${objStr}`;
+      });
+    } else {
+      const propVal = cssInJs(input[i]);
+      str += `${i}: ${propVal}`;
+    }
+    str += "}";
+  }
+  return str;
+}
+
+console.log(cssInJs(input));
 // const cssString = cssInJS(input);
 
 // console.log(cssString); // 'body {color: red;} @media (max-width: 996px) {.class-1 {background-color: #000}}'
 // ```
 
-const input = {
-  body: {
-    color: "red"
-  },
-  "@media (max-width: 996px)": {
-    "background-color": "#000"
-  }
-};
+// const input = {
+//   body: {
+//     color: "red"
+//   },
+//   "@media (max-width: 996px)": {
+//     "background-color": "#000"
+//   }
+// };
 
 // function cssInJS(input) {
 //   let strCss = "";
@@ -57,20 +78,19 @@ const input = {
 //   }
 // };
 
-function cssInJs(input) {
-  if (typeof input !== "object") {
-    // Только здесь нужно заморочиться, чтобы привести точно к строке, потому что если вернешь number, то все по пизде пойдет
-    return `${input};`;
-  }
+// function cssInJs(input) {
+//   if (typeof input !== "object") {
+//     return `${input}`;
+//   }
 
-  let resStr = "{";
+//   let resStr = "{";
+//   for (let i in input) {
+//     const propVal = cssInJs(input[i]);
+//     resStr += `${i}: ${propVal}`;
+//   }
+//   resStr += "}";
 
-  for (let i in input) {
-    const propVal = cssInJs(input[i]);
-    resStr += `${i}: ${propVal}`;
-  }
+//   return resStr;
+// }
 
-  resStr += "}";
-
-  return resStr;
-}
+// console.log(cssInJs(input));

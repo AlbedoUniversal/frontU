@@ -9,7 +9,7 @@
 
 const input = {
   body: {
-    order: 1
+    color: "red"
   },
 
   "@media (max-width: 996px)": [
@@ -29,12 +29,17 @@ function cssInJs(input) {
   for (let i in input) {
     if (Array.isArray(input[i])) {
       input[i].forEach(elem => {
-        objStr = JSON.stringify(elem);
+        let objStr = JSON.stringify(elem);
+        objStr.replace(/\\"/g, "\uFFFF"); //U+ FFFF
+        objStr = objStr
+          .replace(/\"([^"]+)\":/g, "$1:")
+          .replace(/\uFFFF/g, '\\"');
+        console.log(objStr);
         str += `${i}:${objStr}`;
       });
     } else {
       const propVal = cssInJs(input[i]);
-      str += `${i}: ${propVal}`;
+      str += `${i}:${propVal}`;
     }
     str += "}";
   }
@@ -42,6 +47,7 @@ function cssInJs(input) {
 }
 
 console.log(cssInJs(input));
+// console.log(JSON.parse(input));
 // const cssString = cssInJS(input);
 
 // console.log(cssString); // 'body {color: red;} @media (max-width: 996px) {.class-1 {background-color: #000}}'

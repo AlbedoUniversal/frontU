@@ -19,7 +19,7 @@ function cssInJs(input) {
   if (typeof input !== "object") {
     return `${input}`;
   }
-  let str = "";
+  let str = "{";
   for (let i in input) {
     if (Array.isArray(input[i])) {
       let arrObjText = [];
@@ -27,23 +27,26 @@ function cssInJs(input) {
         Object.keys(elem).forEach((k) => {
           arrObjText.push(k);
           Object.keys(elem[k]).forEach((y) => {
-            // console.log(elem[k][y]);
-            arrObjText.push('{' + y + ':' + elem[k][y] + ';');
+            arrObjText.push(' ' + '{' + y + ':' + elem[k][y] + ';');
           });
         });
-        arrObjText = '{' + arrObjText.join('') + '}';
+        arrObjText = '{' + arrObjText.join('') + '}' + '}';
       });
-      str += ` ${i}: ${arrObjText}}`;
+      str += ` ${i} ${arrObjText}`;
     } else {
       const propVal = cssInJs(input[i]);
-      str += ` {${i}:${propVal};}`;
+      console.log(propVal);
+      str += `${i} :${propVal}`;
     }
-    str += "";
+    str += ";}";
+
   }
   return str;
 }
 
 console.log(cssInJs(input));
+
+
 
 // console.log(JSON.parse(input));
 // const cssString = cssInJS(input);

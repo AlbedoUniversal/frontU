@@ -22,11 +22,27 @@ html {
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: $mainFont;
+  font-family: Airfool;
   font-size: $mainFontSize;
   font-weight: $mainFontWeight;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.main {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: $desktopWidth;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.color-text{
+  color: $span-color;
 }
 
 *,

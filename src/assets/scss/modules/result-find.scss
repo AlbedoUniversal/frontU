@@ -1,0 +1,48 @@
+.result-find {
+  background: linear-gradient(#e0af52, #6ee052 );
+  min-height: calc(100vh - 348px);
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .result-find__btnAll {
+      @include btnStyles();
+      margin-bottom: 2em;
+    }
+    .result-cards {
+      &__item {
+        border: 1px solid #000;
+        border-radius: 8px;
+        padding: .7rem;
+        background-color: #d4dc5275;
+        color: #323f64;
+        &-tittle, &-id, &-completed {
+          font-size: 0.8rem;
+          border-bottom: 1px solid #0000006e;
+        }
+      }
+    }
+    .result-delete {
+      display: none;
+      margin-top: 2em;
+      &__btn {
+        @include btnStyles();
+        &:hover {
+          background-color: #f06731;
+        }
+      }
+    }
+  }
+}
+
+.result-delete__active{
+  display: block !important;
+}
+.result-cardsAll {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-rows: 190px;
+  grid-column-gap: 10px;
+  grid-row-gap: 20px;
+}

@@ -1,5 +1,8 @@
 .wrapper {
-  max-width: $desktopWidth;
-  margin: 0 auto;
-  background-color: green;
+  display: flex;
+	flex-direction: column;
+	min-height: 100%;
 }
+
+@import './search-engine';
+@import './result-find';

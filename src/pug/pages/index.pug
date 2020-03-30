@@ -4,7 +4,15 @@ block variables
   - var pageClass = 'index-page';
 
 block content 
-  section 
+  section.search-engine
     .container 
-      h1 parampam pam 
-      p ku ku
+      .find
+        .find__text Привет, уважаемый посетитель сайта. Сейчас ты находишься на #[span.color-text единственном] портале, который способен выдать информацию о #[span.color-text 200] пользователях сервиса JSONPlaceholder. Чтобы получить всевозможные данные о пользователе с сайта - #[span.color-text "https://jsonplaceholder.typicode.com"], вам достаточно ввести его персональный id (от 1 до 200) и нажать на кнопку поиска, либо же вывести #[span.color-text всех одним разом] для получения уникальной информации. 
+        input.find__input(type="number" placeholder="введите номер ID")
+        button.find__btn найти по номеру ID
+  section.result-find
+    .container
+      button.result-find__btnAll показать всех пользователей
+      .result-cards
+      .result-delete
+        button.result-delete__btn очистить поле

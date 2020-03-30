@@ -1,0 +1,27 @@
+.search-engine {
+  background: linear-gradient(#9198e5, #e0af52 );
+  .find {
+    text-align: center;
+    &__text {
+      font-size: 0.8rem;
+      margin-bottom: 2em;
+    }
+    &__input {
+      border-radius: 8px;
+      border: 2px solid #000000;
+      color: #201d45;
+      outline: none;
+      padding: 0.4rem 1rem;
+      background-color: transparent;
+      margin-right: 1em;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+    &__btn {
+      @include btnStyles();
+    }
+  }  
+}

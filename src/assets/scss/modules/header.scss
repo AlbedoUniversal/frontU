@@ -1,6 +1,10 @@
-header {
-  background-color: aqua;
+.header {
+  background: linear-gradient(#e66465, #9198e5);
   height: 100px;
   width: 100%;
   font-family: Airfool;
+  .tittle {
+    text-align: center;
+    font-size: 2em;
+  }
 }

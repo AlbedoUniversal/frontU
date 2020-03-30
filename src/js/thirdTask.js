@@ -13,29 +13,22 @@ const btnDelete = document.querySelector('.result-delete__btn');
 
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
+let saveLocalStorage = JSON.parse(localStorage.getItem("cards")) || [];
+if (localStorage.getItem("cards")) render.drawCards(saveLocalStorage);
+
+
 async function getInfo(a) {
-  if (a.target.innerText == 'показать всех пользователей') {
-    return await fetch(url)
-      .then(responce => responce.json())
-      .then(json => {
-        render.drawCards(json);
-        render.allCards.classList.add('result-cardsAll');
-        sectionDelete.classList.add('result-delete__active');
-
-      })
-  } else {
-    return await fetch(`${url}/${inputFind.value}`)
-      .then(responce => responce.json())
-      .then(json => {
-        render.drawCards(json);
-        render.allCards.classList.remove('result-cardsAll');
-        sectionDelete.classList.add('result-delete__active');
-
-      })
-  }
+  let res = (a.target.innerText == 'показать всех пользователей') ? await fetch(url) : await fetch(`${url}/${inputFind.value}`);
+  let json = await res.json();
+  saveLocalStorage = json;
+  localStorage.setItem("cards", JSON.stringify(saveLocalStorage));
+  JSON.parse(localStorage.getItem("cards"));
+  render.drawCards(json);
+  sectionDelete.classList.add('result-delete__active');
 }
 
 function checkField(a) {
+  render.allCards.classList.remove('result-cardsAll');
   (parseInt(inputFind.value) > 0) ? getInfo(a) : alert(
     "Invalid number.Please enter a number between(1 - 200)");
 }
@@ -43,10 +36,12 @@ function checkField(a) {
 function allDelete() {
   render.allCards.innerHTML = '';
   sectionDelete.classList.remove('result-delete__active');
+  localStorage.removeItem("cards");
 }
 
 btnFindAll.addEventListener('click', (e) => {
   getInfo(e);
+  render.allCards.classList.add('result-cardsAll');
 });
 
 btnFindOne.addEventListener('click', (e) => {
@@ -56,5 +51,6 @@ btnFindOne.addEventListener('click', (e) => {
 btnDelete.addEventListener('click', () => {
   allDelete();
   inputFind.value = "";
+
 })
 

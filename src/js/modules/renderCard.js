@@ -15,62 +15,44 @@ const render = {
     const cardCompleted = document.createElement("p"); // completed
     cardCompleted.classList.add("result-cards__item-completed"); // присваиваем класс
 
-    card.append(cardId, cardTittle, cardCompleted); //наполняем карточку
+    const cardImg = document.createElement("img");
+    cardImg.classList.add("result-cards__item-img");
+    cardImg.setAttribute('src', '/assets/img/r.png');
+
+    card.append(cardId, cardTittle, cardCompleted, cardImg); //наполняем карточку
 
     this.newCard = card;
   },
   drawCards(items) {
-
     this.allCards.innerHTML = "";
-
     let idUser;
-
     let titleUser;
-
     let completedUser;
 
-    if (Array.isArray(items)) {
-      items.forEach((element, index) => {
+    let arr = !Array.isArray(items) ? new Array(items) : items
+
+    if (typeof arr == 'object') {
+      arr.forEach((element, index) => {
         this.createCard();
         this.newCard.setAttribute('data-index-number', index + 1);
 
 
         idUser = [...this.newCard.childNodes].find(
           x => x.className === 'result-cards__item-id');
-        idUser.innerText = `id: ${items[index].id}`;
+        idUser.innerText = `id: ${arr[index].id}`;
 
 
         titleUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-tittle');
-        titleUser.innerText = `title: ${items[index].title}`;
+        titleUser.innerText = `title: ${arr[index].title}`;
 
         completedUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-completed');
-        completedUser.innerText = `status completed: '${items[index].completed}'`;
+        completedUser.innerText = `status completed: '${arr[index].completed}'`;
 
         this.allCards.appendChild(this.newCard);
       });
-    } else if (typeof items == 'object') {
-      this.createCard();
-
-
-      idUser = [...this.newCard.childNodes].find(
-        x => x.className === 'result-cards__item-id');
-      idUser.innerText = `id: ${items.id}`;
-
-      titleUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-tittle');
-      titleUser.innerText = `title: ${items.title}`;
-
-
-      completedUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-completed');
-      completedUser.innerText = `status completed: '${items.completed}'`;
-      this.allCards.appendChild(this.newCard);
     } else {
       console.error('...');
     }
-
-
-    //   if (allCards.innerHTML != "")
-    //     document.querySelector(".deletePrev").classList.add("active");
-    // }
   }
 }
 export default render;

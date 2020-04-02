@@ -1,7 +1,9 @@
 
+import sectionDelete from '../thirdTask';
 const render = {
   newCard: null,
   allCards: document.querySelector('.result-cards'),
+  sectionDelete: document.querySelector('.result-delete'),
   createCard() {
     const card = document.createElement("div"); // карточка
     card.classList.add("result-cards__item"); // присваиваем класс
@@ -47,6 +49,10 @@ const render = {
 
         completedUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-completed');
         completedUser.innerText = `status completed: '${arr[index].completed}'`;
+
+        if (arr[index].completed == false) titleUser.classList.add('trough-text');
+
+        this.sectionDelete.classList.add('result-delete__active');
 
         this.allCards.appendChild(this.newCard);
       });

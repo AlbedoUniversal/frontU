@@ -8,34 +8,33 @@ import render from './modules/renderCard';
 const inputFind = document.querySelector('.find__input');
 const btnFindOne = document.querySelector('.find__btn');
 const btnFindAll = document.querySelector('.result-find__btnAll');
-const sectionDelete = document.querySelector('.result-delete');
+
 const btnDelete = document.querySelector('.result-delete__btn');
 
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
 let saveLocalStorage = JSON.parse(localStorage.getItem("cards")) || [];
-if (localStorage.getItem("cards")) render.drawCards(saveLocalStorage);
+if (saveLocalStorage) render.drawCards(saveLocalStorage);
+
+
 
 
 async function getInfo(a) {
   let res = (a.target.innerText == 'показать всех пользователей') ? await fetch(url) : await fetch(`${url}/${inputFind.value}`);
   let json = await res.json();
-  saveLocalStorage = json;
-  localStorage.setItem("cards", JSON.stringify(saveLocalStorage));
-  JSON.parse(localStorage.getItem("cards"));
+  localStorage.setItem("cards", JSON.stringify(json));
   render.drawCards(json);
-  sectionDelete.classList.add('result-delete__active');
 }
 
 function checkField(a) {
   render.allCards.classList.remove('result-cardsAll');
-  (parseInt(inputFind.value) > 0) ? getInfo(a) : alert(
+  (parseInt(inputFind.value) > 0 && parseInt(inputFind.value) <= 200) ? getInfo(a) : alert(
     "Invalid number.Please enter a number between(1 - 200)");
 }
 
 function allDelete() {
   render.allCards.innerHTML = '';
-  sectionDelete.classList.remove('result-delete__active');
+  render.sectionDelete.classList.remove('result-delete__active');
   localStorage.removeItem("cards");
 }
 
@@ -50,7 +49,7 @@ btnFindOne.addEventListener('click', (e) => {
 
 btnDelete.addEventListener('click', () => {
   allDelete();
+  saveLocalStorage = [];
   inputFind.value = "";
-
 })
 

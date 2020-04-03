@@ -8,28 +8,35 @@ const render = {
     const card = document.createElement("div"); // карточка
     card.classList.add("result-cards__item"); // присваиваем класс
 
-    const cardId = document.createElement("p"); // id
-    cardId.classList.add("result-cards__item-id"); // присваиваем класс
+    const cardNumber = document.createElement("p"); // id
+    cardNumber.classList.add("result-cards__item-id"); // присваиваем класс
 
     const cardTittle = document.createElement("p"); // обертка ссылки
     cardTittle.classList.add("result-cards__item-tittle"); // присваиваем класс
 
-    const cardCompleted = document.createElement("p"); // completed
-    cardCompleted.classList.add("result-cards__item-completed"); // присваиваем класс
+    const cardCheck = document.createElement("input");
+    cardCheck.classList.add('result-cards__item-check');
+    cardCheck.setAttribute('type', 'checkbox');
+    cardCheck.setAttribute('name', 'checkAddress');
+
+    const cardBtnDelete = document.createElement("button"); // completed
+    cardBtnDelete.classList.add("result-cards__item-delete"); // присваиваем класс
+    cardBtnDelete.innerText = 'delete';
 
     const cardImg = document.createElement("img");
     cardImg.classList.add("result-cards__item-img");
     cardImg.setAttribute('src', '/assets/img/r.png');
 
-    card.append(cardId, cardTittle, cardCompleted, cardImg); //наполняем карточку
+    card.append(cardNumber, cardTittle, cardCheck, cardBtnDelete, cardImg); //наполняем карточку
 
     this.newCard = card;
   },
   drawCards(items) {
     this.allCards.innerHTML = "";
-    let idUser;
-    let titleUser;
-    let completedUser;
+    let numberTodo,
+      titleTodo,
+      btnDeleteCard,
+      checkCard;
 
     let arr = !Array.isArray(items) ? new Array(items) : items
 
@@ -38,19 +45,35 @@ const render = {
         this.createCard();
         this.newCard.setAttribute('data-index-number', index + 1);
 
-
-        idUser = [...this.newCard.childNodes].find(
+        numberTodo = [...this.newCard.childNodes].find(
           x => x.className === 'result-cards__item-id');
-        idUser.innerText = `id: ${arr[index].id}`;
+        numberTodo.innerText = `Todoshka N${arr[index].id}`;
 
+        titleTodo = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-tittle');
+        titleTodo.innerText = `title: ${arr[index].title}`;
 
-        titleUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-tittle');
-        titleUser.innerText = `title: ${arr[index].title}`;
+        checkCard = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-check');
+        // console.log(checkCard);
 
-        completedUser = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-completed');
-        completedUser.innerText = `status completed: '${arr[index].completed}'`;
+        if (arr[index].completed === true) {
+          titleTodo.classList.add('trough-text');
+          checkCard.setAttribute('checked', '');
+        }
 
-        if (arr[index].completed == false) titleUser.classList.add('trough-text');
+        checkCard.addEventListener('click', () => {
+
+        })
+
+        btnDeleteCard = [...this.newCard.childNodes].find(x => x.className === 'result-cards__item-delete');
+        btnDeleteCard.addEventListener('click', () => {
+          arr.filter(todo => {
+            if (todo.id == arr[index].id) {
+              arr.splice(arr.indexOf(todo), 1);
+              localStorage.setItem("cards", JSON.stringify(items));
+              this.drawCards(arr);
+            }
+          })
+        })
 
         this.sectionDelete.classList.add('result-delete__active');
 

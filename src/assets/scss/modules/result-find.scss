@@ -18,6 +18,10 @@
       grid-row-gap: 20px;
       &__item {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
         border: 1px solid #000;
         border-radius: 8px;
         padding: .7rem;
@@ -27,11 +31,19 @@
           font-size: 0.8rem;
           border-bottom: 1px solid #0000006e;
         }
+        &-id {
+          color: rgb(84, 87, 35);
+        }
         &-img {
           position: absolute;
           max-width: 30%;
           top: 0;
           right: 0;
+        }
+        &-delete {
+          @include btnStyles();
+          background-color: #f06731;
+          border: none;
         }
       }
     }

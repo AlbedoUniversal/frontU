@@ -17,13 +17,12 @@ let saveLocalStorage = JSON.parse(localStorage.getItem("cards")) || [];
 if (saveLocalStorage) render.drawCards(saveLocalStorage);
 
 
-
-
 async function getInfo(a) {
-  let res = (a.target.innerText == 'показать всех пользователей') ? await fetch(url) : await fetch(`${url}/${inputFind.value}`);
-  let json = await res.json();
+  const res = (a.target.innerText == 'показать всех пользователей') ? await fetch(url) : await fetch(`${url}/${inputFind.value}`);
+  const json = await res.json();
   localStorage.setItem("cards", JSON.stringify(json));
   render.drawCards(json);
+  return json;
 }
 
 function checkField(a) {
@@ -34,6 +33,8 @@ function checkField(a) {
 
 function allDelete() {
   render.allCards.innerHTML = '';
+  inputFind.value = "";
+  saveLocalStorage = [];
   render.sectionDelete.classList.remove('result-delete__active');
   localStorage.removeItem("cards");
 }
@@ -49,7 +50,5 @@ btnFindOne.addEventListener('click', (e) => {
 
 btnDelete.addEventListener('click', () => {
   allDelete();
-  saveLocalStorage = [];
-  inputFind.value = "";
 })
 
